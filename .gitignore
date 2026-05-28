@@ -12,7 +12,7 @@ cdn.prod.website-files.com/*
 !cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/
 cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/*
 !cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2
-!cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2
+!cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth,wght.woff2
 
 # OS / editor
 Thumbs.db
