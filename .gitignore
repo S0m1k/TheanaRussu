@@ -1,0 +1,21 @@
+# Claude Code working context
+.claude/
+CLAUDE.md
+
+# Scraped reference materials (not used by the actual project)
+landonorris.com/
+lando.itsoffbrand.io/
+d3e54v103j8qbb.cloudfront.net/
+
+# CDN cache: exclude everything except the 2 fonts the project actually loads
+cdn.prod.website-files.com/*
+!cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/
+cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/*
+!cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2
+!cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2
+
+# OS / editor
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/

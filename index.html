@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Théana Russu — Первый Дроп</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+/* ================================================================
+   THÉANA RUSSU — v4.0 "Dark Editorial"
+   Dark theme inspired by landonorris.com
+   All selectors scoped to .tr-wrapper (Tilda-safe)
+================================================================ */
+
+@font-face {
+  font-family: 'Brier';
+  src: url('cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MonaSans';
+  src: url('cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────── */
+.tr-wrapper {
+  --bg:        #F8F5EE;
+  --bg-2:      #F0EBE1;
+  --fg:        #0D1810;
+  --fg-muted:  rgba(13, 24, 16, 0.48);
+  --green:     #006039;
+  --green-hi:  #007A47;
+  --gold:      #C9A96E;
+  --line:      rgba(0, 96, 57, 0.12);
+
+  --display:   'Brier', sans-serif;
+  --sans:      'MonaSans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+
+  --pad-x:     clamp(28px, 5.5vw, 80px);
+  --pad-y:     clamp(80px, 10vw, 140px);
+  --gap:       14px;
+
+  font-family: var(--sans);
+  font-weight: 400;
+  color: var(--fg);
+  background: var(--bg);
+  overflow-x: clip; /* clip instead of hidden so position:sticky works */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tr-wrapper *, .tr-wrapper *::before, .tr-wrapper *::after {
+  box-sizing: border-box;
+}
+
+.tr-wrapper h1, .tr-wrapper h2, .tr-wrapper h3,
+.tr-wrapper p, .tr-wrapper blockquote, .tr-wrapper figure {
+  margin: 0; padding: 0;
+  font-size: inherit; font-weight: inherit;
+}
+
+.tr-wrapper a { text-decoration: none; color: inherit; }
+
+
+/* ================================================================
+   §1  HERO — Full-viewport dark canvas with paint-trail reveal
+================================================================ */
+.tr-wrapper .tr-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 680px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ── Canvas: fills the entire hero ─────────────────────────── */
+.tr-wrapper .tr-hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+  z-index: 2;
+}
+
+/* ── Marquee behind canvas ──────────────────────────────────── */
+.tr-wrapper .tr-hero__marquee {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tr-wrapper .tr-hero__marquee-track {
+  display: flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.tr-wrapper .tr-hero__marquee-track--left {
+  animation: tr-marquee-l 40s linear infinite;
+}
+
+.tr-wrapper .tr-hero__marquee-track--right {
+  animation: tr-marquee-r 40s linear infinite;
+}
+
+.tr-wrapper .tr-hero__marquee-track span {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: clamp(52px, 7.5vw, 110px);
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.032);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0 clamp(20px, 3vw, 48px);
+  user-select: none;
+}
+
+@keyframes tr-marquee-l {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes tr-marquee-r {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+/* ── Content overlay ────────────────────────────────────────── */
+.tr-wrapper .tr-hero__content {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 3.5vw, 48px) var(--pad-x) clamp(48px, 6vh, 72px);
+  pointer-events: none;
+}
+
+.tr-wrapper .tr-hero__content > * { pointer-events: auto; }
+
+/* ── Top bar ────────────────────────────────────────────────── */
+.tr-wrapper .tr-hero__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tr-wrapper .tr-hero__brand-tag {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  will-change: opacity, transform;
+}
+
+.tr-wrapper .tr-hero__edition-tag {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  will-change: opacity, transform;
+}
+
+/* ── Bottom area ────────────────────────────────────────────── */
+.tr-wrapper .tr-hero__bottom {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.tr-wrapper .tr-hero__heading {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.90;
+}
+
+.tr-wrapper .tr-hero__h1 {
+  display: block;
+  font-family: 'Brier', sans-serif;
+  font-weight: 700;
+  font-size: clamp(72px, 9vw, 140px);
+  line-height: 0.90;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  white-space: nowrap;
+  will-change: opacity, transform;
+}
+
+.tr-wrapper .tr-hero__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  max-width: 280px;
+  padding-bottom: 6px;
+}
+
+.tr-wrapper .tr-hero__tagline {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+  will-change: opacity, transform;
+}
+
+.tr-wrapper .tr-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: none;
+  border: 1px solid var(--line);
+  padding: 14px 24px;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  overflow: hidden;
+  transition: gap 0.45s ease, border-color 0.4s ease;
+  will-change: opacity, transform;
+}
+
+.tr-wrapper .tr-hero__cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+
+.tr-wrapper .tr-hero__cta span {
+  position: relative;
+  z-index: 1;
+}
+
+.tr-wrapper .tr-hero__cta:hover { gap: 20px; border-color: var(--green); }
+.tr-wrapper .tr-hero__cta:hover::before { transform: scaleX(1); }
+
+/* ── Scroll cue ─────────────────────────────────────────────── */
+.tr-wrapper .tr-hero__scroll {
+  position: absolute;
+  bottom: 38px;
+  left: var(--pad-x);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.tr-wrapper .tr-hero__scroll-line {
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--fg-muted);
+  transform-origin: left;
+  opacity: 0;
+  animation: tr-grow 0.9s ease 2.6s forwards;
+}
+
+.tr-wrapper .tr-hero__scroll-text {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  opacity: 0;
+  animation: tr-fade-in 0.6s ease 2.9s forwards;
+}
+
+@keyframes tr-grow {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes tr-fade-in { to { opacity: 1; } }
+
+
+/* ================================================================
+   §2  COLLECTION — Dark Asymmetric Editorial Grid
+================================================================ */
+.tr-wrapper .tr-collection {
+  padding: var(--pad-y) 0;
+  background: var(--bg);
+  position: relative;
+}
+
+/* Background Roman numeral watermark */
+.tr-wrapper .tr-collection::before {
+  content: 'I';
+  position: absolute;
+  top: -0.10em;
+  right: -0.06em;
+  font-family: var(--serif);
+  font-size: clamp(220px, 30vw, 420px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.05);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 0;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+/* ── Section header ─────────────────────────────────────────── */
+.tr-wrapper .tr-collection__header {
+  padding: 0 var(--pad-x);
+  margin-bottom: 52px;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+}
+
+.tr-wrapper .tr-collection__label {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 14px;
+}
+
+.tr-wrapper .tr-collection__h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(44px, 6vw, 80px);
+  line-height: 0.94;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+
+.tr-wrapper .tr-collection__h2 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold);
+}
+
+.tr-wrapper .tr-collection__meta {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  text-align: right;
+  line-height: 1.75;
+  max-width: 180px;
+  flex-shrink: 0;
+}
+
+/* ── Broken asymmetric grid ─────────────────────────────────── */
+.tr-wrapper .tr-collection__grid {
+  padding: 0 var(--pad-x);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 0.7fr;
+  grid-template-rows: 420px 340px;
+  gap: var(--gap);
+  position: relative;
+  z-index: 1;
+}
+
+.tr-wrapper .tr-card:nth-child(1) { grid-column: 1; grid-row: 1 / 3; }
+.tr-wrapper .tr-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+.tr-wrapper .tr-card:nth-child(3) { grid-column: 3; grid-row: 1; }
+.tr-wrapper .tr-card:nth-child(4) { grid-column: 2 / 4; grid-row: 2; }
+
+/* ── Card base ──────────────────────────────────────────────── */
+.tr-wrapper .tr-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(44px);
+  transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 1.0s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+
+.tr-wrapper .tr-card.tr-visible { opacity: 1; transform: translateY(0); }
+.tr-wrapper .tr-card:nth-child(1) { transition-delay: 0.00s; }
+.tr-wrapper .tr-card:nth-child(2) { transition-delay: 0.10s; }
+.tr-wrapper .tr-card:nth-child(3) { transition-delay: 0.18s; }
+.tr-wrapper .tr-card:nth-child(4) { transition-delay: 0.26s; }
+
+/* ── Card image layer (dark placeholder) ────────────────────── */
+.tr-wrapper .tr-card__image {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-2);
+  transition: transform 1.1s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
+}
+
+.tr-wrapper .tr-card:hover .tr-card__image { transform: scale(1.05); }
+
+/* Centered circle placeholder indicator */
+.tr-wrapper .tr-card__image::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 32px; height: 32px;
+  margin: -16px 0 0 -16px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 96, 57, 0.18);
+  pointer-events: none;
+}
+
+/* ── Watermark number inside card ───────────────────────────── */
+.tr-wrapper .tr-card__watermark {
+  position: absolute;
+  bottom: -0.12em;
+  left: -0.08em;
+  font-family: var(--serif);
+  font-size: clamp(90px, 14vw, 170px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.05);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+}
+
+/* ── Edition badge ──────────────────────────────────────────── */
+.tr-wrapper .tr-card__num {
+  position: absolute;
+  top: 20px; right: 20px;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  z-index: 3;
+}
+
+/* ── Hover overlay — frosted glass ──────────────────────────── */
+.tr-wrapper .tr-card__overlay {
+  position: absolute; inset: 0;
+  background: rgba(248, 245, 238, 0.18);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(248, 245, 238, 0.30);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px 26px;
+}
+
+.tr-wrapper .tr-card:hover .tr-card__overlay { opacity: 1; }
+
+.tr-wrapper .tr-card__info {
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.5s ease;
+}
+
+.tr-wrapper .tr-card:hover .tr-card__info {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.tr-wrapper .tr-card__name {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.1;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+
+.tr-wrapper .tr-card__edition {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(201, 169, 110, 0.75);
+  margin-bottom: 16px;
+}
+
+.tr-wrapper .tr-card__arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg);
+  transition: gap 0.35s ease;
+}
+
+.tr-wrapper .tr-card:hover .tr-card__arrow { gap: 14px; }
+
+
+/* ================================================================
+   §3  MANIFESTO — Dark Immersive
+================================================================ */
+.tr-wrapper .tr-manifesto {
+  /* Local token overrides — light text on dark bg */
+  --fg:       #EDE8D8;
+  --fg-muted: rgba(237, 232, 216, 0.52);
+  position: relative;
+  background: #0A1408;
+  padding: var(--pad-y) var(--pad-x);
+  overflow: hidden;
+}
+
+/* Subtle radial depth */
+.tr-wrapper .tr-manifesto::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(
+    ellipse 85% 80% at 50% 50%,
+    rgba(42, 96, 64, 0.22) 0%,
+    transparent 70%
+  );
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Grain texture */
+.tr-wrapper .tr-manifesto::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 280px 280px;
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tr-wrapper .tr-manifesto__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tr-wrapper .tr-manifesto__rule {
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin-bottom: 40px;
+  transform: scaleX(0);
+  opacity: 0;
+  transform-origin: center;
+}
+
+.tr-wrapper .tr-manifesto__rule--bottom {
+  margin-bottom: 0;
+  margin-top: 60px;
+}
+
+.tr-wrapper .tr-manifesto__rule.tr-visible {
+  animation: tr-rule-in 1.0s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes tr-rule-in { to { transform: scaleX(1); opacity: 1; } }
+
+.tr-wrapper .tr-manifesto__eyebrow {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.tr-wrapper .tr-manifesto__eyebrow.tr-visible {
+  animation: tr-up 0.8s ease 0.10s forwards;
+}
+
+.tr-wrapper .tr-manifesto__quote {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1.25;
+  color: var(--fg);
+  margin-bottom: 32px;
+  quotes: none;
+  border: none;
+}
+
+.tr-wrapper .tr-manifesto__quote .tr-word {
+  display: inline-block;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.tr-wrapper .tr-manifesto__attribution {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--fg-muted);
+  margin-bottom: 52px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.tr-wrapper .tr-manifesto__attribution.tr-visible {
+  animation: tr-up 0.8s ease 0.25s forwards;
+}
+
+.tr-wrapper .tr-manifesto__body {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 2.0;
+  color: var(--fg-muted);
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.tr-wrapper .tr-manifesto__body.tr-visible {
+  animation: tr-up 0.9s ease 0.40s forwards;
+}
+
+@keyframes tr-up { to { opacity: 1; transform: translateY(0); } }
+
+
+/* ================================================================
+   §4  CRAFT — Photo editorial strip
+================================================================ */
+.tr-wrapper .tr-craft {
+  background: var(--bg);
+  padding: var(--pad-y) var(--pad-x);
+  border-top: 1px solid var(--line);
+}
+
+.tr-wrapper .tr-craft__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+
+.tr-wrapper .tr-craft__eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.tr-wrapper .tr-craft__h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(28px, 3.5vw, 48px);
+  color: var(--fg);
+  letter-spacing: -0.01em;
+}
+
+.tr-wrapper .tr-craft__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+.tr-wrapper .tr-craft__item {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tr-wrapper .tr-craft__item.tr-visible { opacity: 1; transform: translateY(0); }
+.tr-wrapper .tr-craft__item:nth-child(1) { transition-delay: 0.00s; }
+.tr-wrapper .tr-craft__item:nth-child(2) { transition-delay: 0.08s; }
+.tr-wrapper .tr-craft__item:nth-child(3) { transition-delay: 0.16s; }
+.tr-wrapper .tr-craft__item:nth-child(4) { transition-delay: 0.24s; }
+
+/* Photo placeholder */
+.tr-wrapper .tr-craft__photo {
+  aspect-ratio: 3 / 4;
+  background: #DDD8CE;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: transform 1.1s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.tr-wrapper .tr-craft__item:hover .tr-craft__photo { transform: scale(1.03); }
+
+/* Placeholder indicator */
+.tr-wrapper .tr-craft__photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #E8E3D8 0%, #CCC8BE 100%);
+}
+.tr-wrapper .tr-craft__photo::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px; height: 32px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 50%;
+}
+
+.tr-wrapper .tr-craft__caption {
+  padding: 0 2px;
+}
+
+.tr-wrapper .tr-craft__num {
+  display: block;
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+
+.tr-wrapper .tr-craft__title {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.25;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+
+.tr-wrapper .tr-craft__desc {
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--fg-muted);
+}
+
+
+/* ================================================================
+   §5  CONCIERGE CTA — Персональный сервис
+================================================================ */
+.tr-wrapper .tr-concierge {
+  background: var(--bg);
+  padding: clamp(100px, 13vw, 160px) var(--pad-x);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+
+/* Ambient green glow */
+.tr-wrapper .tr-concierge::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(42, 96, 64, 0.22) 0%,
+    transparent 68%
+  );
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tr-wrapper .tr-concierge__eyebrow {
+  position: relative;
+  z-index: 1;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 32px;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.tr-wrapper .tr-concierge__eyebrow.tr-visible {
+  animation: tr-up 0.8s ease forwards;
+}
+
+.tr-wrapper .tr-concierge__h2 {
+  position: relative;
+  z-index: 1;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.15;
+  color: var(--fg);
+  margin-bottom: 22px;
+  max-width: 580px;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.tr-wrapper .tr-concierge__h2.tr-visible {
+  animation: tr-up 0.9s ease 0.10s forwards;
+}
+
+.tr-wrapper .tr-concierge__h2 em {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.tr-wrapper .tr-concierge__body {
+  position: relative;
+  z-index: 1;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--fg-muted);
+  max-width: 400px;
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.tr-wrapper .tr-concierge__body.tr-visible {
+  animation: tr-up 0.9s ease 0.20s forwards;
+}
+
+/* ── Консьерж-кнопка ────────────────────────────────────────── */
+.tr-wrapper .tr-concierge__btn {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid rgba(13, 24, 16, 0.22);
+  padding: 22px 40px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.4s ease, border-color 0.4s ease, gap 0.4s ease;
+  outline: none;
+  will-change: transform;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.tr-wrapper .tr-concierge__btn.tr-visible {
+  animation: tr-up 0.9s ease 0.35s forwards;
+}
+
+/* Green fill animation on hover */
+.tr-wrapper .tr-concierge__btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+
+.tr-wrapper .tr-concierge__btn:hover::before { transform: scaleX(1); }
+.tr-wrapper .tr-concierge__btn:hover { border-color: var(--green); gap: 22px; }
+
+.tr-wrapper .tr-concierge__btn span,
+.tr-wrapper .tr-concierge__btn .tr-btn-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.tr-wrapper .tr-concierge__btn .tr-btn-arrow {
+  font-size: 15px;
+  transition: transform 0.4s ease;
+}
+
+.tr-wrapper .tr-concierge__btn:hover .tr-btn-arrow {
+  transform: translateX(4px);
+}
+
+.tr-wrapper .tr-concierge__note {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(13, 24, 16, 0.30);
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.tr-wrapper .tr-concierge__note.tr-visible {
+  animation: tr-up 0.8s ease 0.52s forwards;
+}
+
+
+/* ================================================================
+   §6  STACKED SCROLL — Loewe-style overlapping sections
+================================================================ */
+.tr-wrapper .tr-section {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  transform-origin: top center;
+  will-change: transform;
+  /* overflow: hidden lives on .tr-hero only — other sections show full content */
+}
+
+.tr-wrapper .tr-hero       { z-index: 1; }
+.tr-wrapper .tr-collection { z-index: 2; }
+.tr-wrapper .tr-manifesto  { z-index: 3; }
+.tr-wrapper .tr-craft      { z-index: 4; }
+.tr-wrapper .tr-concierge  { z-index: 5; }
+
+/* Collection and craft are taller than 100vh — let them scroll naturally */
+.tr-wrapper .tr-section--flow {
+  position: relative;
+  min-height: auto;
+}
+
+
+/* ================================================================
+   RESPONSIVE — TABLET  768px – 1199px
+================================================================ */
+@media (max-width: 1199px) {
+  .tr-wrapper .tr-collection__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 320px 320px;
+    gap: 10px;
+  }
+
+  .tr-wrapper .tr-card:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .tr-wrapper .tr-card:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .tr-wrapper .tr-card:nth-child(3) { grid-column: 1; grid-row: 2; }
+  .tr-wrapper .tr-card:nth-child(4) { grid-column: 2; grid-row: 2; }
+
+  .tr-wrapper .tr-craft__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: calc(var(--gap) * 2) var(--gap);
+  }
+}
+
+/* ================================================================
+   RESPONSIVE — MOBILE  < 768px
+================================================================ */
+@media (max-width: 767px) {
+  .tr-wrapper .tr-hero__content { padding: 28px 24px 48px; }
+  .tr-wrapper .tr-hero__h1 { font-size: clamp(54px, 14vw, 80px); }
+  .tr-wrapper .tr-hero__bottom { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .tr-wrapper .tr-hero__aside { max-width: 100%; }
+  .tr-wrapper .tr-hero__scroll { left: 24px; bottom: 28px; }
+  .tr-wrapper .tr-hero__edition-tag { display: none; }
+
+  .tr-wrapper .tr-collection { padding: 64px 0 64px; }
+  .tr-wrapper .tr-collection__header {
+    padding: 0 24px;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+  .tr-wrapper .tr-collection__meta { text-align: left; }
+
+  .tr-wrapper .tr-collection__grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 10px;
+    padding: 0 24px;
+    grid-template-columns: unset;
+    grid-template-rows: unset;
+  }
+  .tr-wrapper .tr-collection__grid::-webkit-scrollbar { display: none; }
+
+  .tr-wrapper .tr-card {
+    flex: 0 0 74vw;
+    height: 440px;
+    scroll-snap-align: start;
+  }
+  .tr-wrapper .tr-card:nth-child(n) {
+    grid-column: unset; grid-row: unset;
+  }
+
+  .tr-wrapper .tr-manifesto { padding: 80px 24px; }
+
+  .tr-wrapper .tr-craft { padding: 64px 24px; }
+  .tr-wrapper .tr-craft__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px var(--gap);
+  }
+  .tr-wrapper .tr-craft__photo { aspect-ratio: 4 / 5; }
+
+  .tr-wrapper .tr-concierge { padding: 80px 24px; }
+  .tr-wrapper .tr-concierge__btn { padding: 18px 28px; font-size: 10px; }
+}
+
+/* ================================================================
+   REDUCED MOTION OVERRIDES
+================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .tr-wrapper .tr-hero__marquee-track { animation: none !important; }
+  .tr-wrapper .tr-card,
+  .tr-wrapper .tr-pillar,
+  .tr-wrapper .tr-manifesto__eyebrow,
+  .tr-wrapper .tr-manifesto__attribution,
+  .tr-wrapper .tr-manifesto__body,
+  .tr-wrapper .tr-concierge__eyebrow,
+  .tr-wrapper .tr-concierge__h2,
+  .tr-wrapper .tr-concierge__body,
+  .tr-wrapper .tr-concierge__btn,
+  .tr-wrapper .tr-concierge__note {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .tr-wrapper .tr-manifesto__rule {
+    transform: scaleX(1) !important; opacity: 1 !important; animation: none !important;
+  }
+  .tr-wrapper .tr-manifesto__quote .tr-word { opacity: 1 !important; transform: none !important; }
+  .tr-wrapper .tr-hero__scroll-line,
+  .tr-wrapper .tr-hero__scroll-text {
+    opacity: 1 !important; animation: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<!-- ============================================================
+     THÉANA RUSSU — HOME PAGE v4.0 "Dark Editorial"
+     Tilda Zero Block / scoped to .tr-wrapper
+============================================================ -->
+
+<div class="tr-wrapper">
+
+  <!-- ── Global header ──────────────────────────────────────── -->
+  <header class="tr-header" id="tr-header" aria-label="Навигация сайта">
+    <a href="index.html" class="tr-header__logo">Théana Russu</a>
+    <nav class="tr-header__nav">
+      <a href="#tr-collection" class="tr-header__nav-link">Коллекция</a>
+      <a href="delivery.html" class="tr-header__nav-link">Доставка</a>
+      <a href="#tr-manifesto" class="tr-header__nav-link">О бренде</a>
+    </nav>
+    <button class="tr-header__cta js-open-modal" type="button">
+      <span>Консьерж</span><span aria-hidden="true">→</span>
+    </button>
+    <button class="tr-header__burger" type="button" aria-label="Открыть меню" aria-expanded="false">
+      <span class="tr-header__burger-line"></span>
+      <span class="tr-header__burger-line"></span>
+      <span class="tr-header__burger-line"></span>
+    </button>
+  </header>
+
+  <!-- ── Mobile menu ────────────────────────────────────────── -->
+  <div class="tr-menu" id="tr-menu" aria-hidden="true">
+    <nav class="tr-menu__nav">
+      <a href="#tr-collection" class="tr-menu__link">Коллекция</a>
+      <a href="delivery.html"  class="tr-menu__link">Доставка</a>
+      <a href="#tr-manifesto"  class="tr-menu__link">О бренде</a>
+      <a href="#tr-top"        class="tr-menu__link" style="font-size: clamp(22px, 5vw, 36px); margin-top: 8px; color: rgba(237,232,216,0.38); letter-spacing: 0.02em;">Edition I · 2025</a>
+    </nav>
+    <div class="tr-menu__bottom">
+      <button class="tr-menu__cta js-open-modal" type="button">
+        <span>Консьерж-сервис</span><span aria-hidden="true">→</span>
+      </button>
+      <span class="tr-menu__edition">Théana Russu</span>
+    </div>
+  </div>
+
+  <!-- ── Concierge modal ────────────────────────────────────── -->
+  <div class="tr-modal" id="tr-modal" role="dialog" aria-modal="true" aria-labelledby="tr-modal-title" aria-hidden="true">
+    <div class="tr-modal__backdrop"></div>
+    <div class="tr-modal__box">
+      <button class="tr-modal__close" aria-label="Закрыть">✕</button>
+      <span class="tr-modal__eyebrow">Консьерж-сервис</span>
+      <h2 class="tr-modal__title" id="tr-modal-title">
+        Расскажите нам<br>о своём выборе
+      </h2>
+
+      <form class="tr-form" novalidate>
+        <div class="tr-form__row">
+          <div class="tr-form__field">
+            <label class="tr-form__label" for="f-name">Имя<span>*</span></label>
+            <input class="tr-form__input" id="f-name" name="name" type="text" placeholder="Ваше имя" required>
+          </div>
+          <div class="tr-form__field">
+            <label class="tr-form__label" for="f-phone">Телефон<span>*</span></label>
+            <input class="tr-form__input" id="f-phone" name="phone" type="tel" placeholder="+7 000 000 00 00" required>
+          </div>
+        </div>
+
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-email">Email</label>
+          <input class="tr-form__input" id="f-email" name="email" type="email" placeholder="you@example.com">
+        </div>
+
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-model">Модель<span>*</span></label>
+          <select class="tr-form__select" id="f-model" name="model" required>
+            <option value="">— выберите модель —</option>
+            <option value="Venezia">Venezia</option>
+            <option value="Milano">Milano</option>
+            <option value="Firenze">Firenze</option>
+            <option value="Roma Clutch">Roma Clutch</option>
+            <option value="Не определилась">Ещё не определилась</option>
+          </select>
+        </div>
+
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-comment">Комментарий</label>
+          <textarea class="tr-form__textarea" id="f-comment" name="comment" placeholder="Номер экземпляра, гравировка, вопросы…"></textarea>
+        </div>
+
+        <label class="tr-form__check">
+          <input type="checkbox" name="agree" required>
+          <span class="tr-form__check-text">
+            Согласна с <a href="#">обработкой персональных данных</a>
+            и условиями заказа
+          </span>
+        </label>
+
+        <button class="tr-form__submit" type="submit">
+          <span>Отправить заявку</span><span aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <div class="tr-modal__success">
+        <div class="tr-modal__success-icon">✓</div>
+        <p class="tr-modal__success-title">Заявка отправлена</p>
+        <p class="tr-modal__success-body">
+          Мы свяжемся с вами в течение 24 часов.<br>
+          Спасибо за интерес к Théana Russu.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       §1  HERO — Full-viewport canvas paint-trail reveal
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-hero tr-section" id="tr-top" aria-label="Главный баннер">
+
+    <!-- Canvas IS the full hero background -->
+    <canvas class="tr-hero__canvas" aria-label="Сумки Théana Russu"></canvas>
+
+    <!-- Marquee behind canvas (z-index 0) -->
+    <div class="tr-hero__marquee" aria-hidden="true">
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--left"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--right"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--left"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--right"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--left"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--right"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--left"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+      <div class="tr-hero__marquee-track tr-hero__marquee-track--right"><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span><span>THÉANARUSSU</span></div>
+    </div>
+
+    <!-- Content overlay (z-index 5, pointer-events: none) -->
+    <div class="tr-hero__content">
+      <div class="tr-hero__bottom">
+        <div class="tr-hero__heading">
+          <span class="tr-hero__h1">THÉANA</span>
+          <span class="tr-hero__h1">RUSSU</span>
+        </div>
+        <div class="tr-hero__aside">
+          <p class="tr-hero__tagline">Итальянская кожа.<br>80 сумок. Первый и единственный дроп.</p>
+          <a href="#tr-collection" class="tr-hero__cta" role="button">
+            <span>Смотреть коллекцию</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="tr-hero__scroll" aria-hidden="true">
+      <span class="tr-hero__scroll-line"></span>
+      <span class="tr-hero__scroll-text">прокрутить</span>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       §2  COLLECTION — Dark Asymmetric Editorial Grid
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-collection tr-section tr-section--flow" id="tr-collection" aria-label="Коллекция первый дроп">
+
+    <div class="tr-collection__header">
+      <div>
+        <span class="tr-collection__label">Коллекция 2025</span>
+        <h2 class="tr-collection__h2">The First <em>Drop</em></h2>
+      </div>
+      <p class="tr-collection__meta">
+        4 модели<br>
+        80 нумерованных<br>
+        экземпляров
+      </p>
+    </div>
+
+    <div class="tr-collection__grid">
+
+      <!-- Card 1: Venezia — tall featured -->
+      <a class="tr-card tr-card--venezia" href="venezia.html" aria-label="Venezia — открыть страницу модели">
+        <div class="tr-card__image"></div>
+        <span class="tr-card__watermark" aria-hidden="true">01</span>
+        <span class="tr-card__num">№ 01 / 20</span>
+        <div class="tr-card__overlay">
+          <div class="tr-card__info">
+            <span class="tr-card__name">Venezia</span>
+            <span class="tr-card__edition">Лимитированная серия &ensp;·&ensp; 20 шт.</span>
+            <span class="tr-card__arrow"><span>Подробнее</span>&ensp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2: Milano -->
+      <a class="tr-card tr-card--milano" href="milano.html" aria-label="Milano — открыть страницу модели">
+        <div class="tr-card__image"></div>
+        <span class="tr-card__watermark" aria-hidden="true">02</span>
+        <span class="tr-card__num">№ 02 / 20</span>
+        <div class="tr-card__overlay">
+          <div class="tr-card__info">
+            <span class="tr-card__name">Milano</span>
+            <span class="tr-card__edition">Лимитированная серия &ensp;·&ensp; 20 шт.</span>
+            <span class="tr-card__arrow"><span>Подробнее</span>&ensp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3: Firenze -->
+      <a class="tr-card tr-card--firenze" href="firenze.html" aria-label="Firenze — открыть страницу модели">
+        <div class="tr-card__image"></div>
+        <span class="tr-card__watermark" aria-hidden="true">03</span>
+        <span class="tr-card__num">№ 03 / 20</span>
+        <div class="tr-card__overlay">
+          <div class="tr-card__info">
+            <span class="tr-card__name">Firenze</span>
+            <span class="tr-card__edition">Лимитированная серия &ensp;·&ensp; 20 шт.</span>
+            <span class="tr-card__arrow"><span>Подробнее</span>&ensp;→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4: Roma Clutch — wide landscape -->
+      <a class="tr-card tr-card--roma" href="roma.html" aria-label="Roma Clutch — открыть страницу модели">
+        <div class="tr-card__image"></div>
+        <span class="tr-card__watermark" aria-hidden="true">04</span>
+        <span class="tr-card__num">№ 04 / 20</span>
+        <div class="tr-card__overlay">
+          <div class="tr-card__info">
+            <span class="tr-card__name">Roma Clutch</span>
+            <span class="tr-card__edition">Лимитированная серия &ensp;·&ensp; 20 шт.</span>
+            <span class="tr-card__arrow"><span>Подробнее</span>&ensp;→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       §3  MANIFESTO — Философия
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-manifesto tr-section" id="tr-manifesto" aria-label="Философия бренда">
+    <div class="tr-manifesto__inner">
+
+      <div class="tr-manifesto__rule" aria-hidden="true"></div>
+
+      <span class="tr-manifesto__eyebrow">Философия</span>
+
+      <blockquote class="tr-manifesto__quote">
+        «Каждая сумка — это не аксессуар.
+        Это решение создать что‑то настоящее.»
+      </blockquote>
+
+      <p class="tr-manifesto__attribution">— Татьяна, основатель Théana Russu</p>
+
+      <p class="tr-manifesto__body">
+        Мы работаем только с итальянскими фабриками и сертифицированными
+        кожевенными домами. Каждое изделие выпускается строго ограниченным
+        тиражом. Не потому что так модно —
+        а потому что иначе не получается сделать по-настоящему хорошо.
+      </p>
+
+      <div class="tr-manifesto__rule tr-manifesto__rule--bottom" aria-hidden="true"></div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       §4  CRAFT — Photo editorial grid
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-craft tr-section tr-section--flow" id="tr-craft" aria-label="Качество изготовления">
+
+    <div class="tr-craft__header">
+      <span class="tr-craft__eyebrow">Производство</span>
+      <h2 class="tr-craft__h2">Детали, которые остаются</h2>
+    </div>
+
+    <div class="tr-craft__grid">
+
+      <div class="tr-craft__item">
+        <div class="tr-craft__photo"></div>
+        <div class="tr-craft__caption">
+          <span class="tr-craft__num">— I</span>
+          <span class="tr-craft__title">Итальянская кожа</span>
+          <p class="tr-craft__desc">Работаем только с сертифицированными кожевенными домами Тосканы</p>
+        </div>
+      </div>
+
+      <div class="tr-craft__item">
+        <div class="tr-craft__photo"></div>
+        <div class="tr-craft__caption">
+          <span class="tr-craft__num">— II</span>
+          <span class="tr-craft__title">Авторский силуэт</span>
+          <p class="tr-craft__desc">Каждая форма разработана с нуля — без заимствований и шаблонов</p>
+        </div>
+      </div>
+
+      <div class="tr-craft__item">
+        <div class="tr-craft__photo"></div>
+        <div class="tr-craft__caption">
+          <span class="tr-craft__num">— III</span>
+          <span class="tr-craft__title">Нумерованный выпуск</span>
+          <p class="tr-craft__desc">Ваш номер указан на изделии и в сертификате подлинности</p>
+        </div>
+      </div>
+
+      <div class="tr-craft__item">
+        <div class="tr-craft__photo"></div>
+        <div class="tr-craft__caption">
+          <span class="tr-craft__num">— IV</span>
+          <span class="tr-craft__title">Полная комплектация</span>
+          <p class="tr-craft__desc">Пыльник, коробка, лента, сертификат, гарантийный талон</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       §5  CONCIERGE CTA — Персональный сервис
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-concierge tr-section" aria-label="Консьерж-сервис">
+
+    <span class="tr-concierge__eyebrow">Персональный сервис</span>
+
+    <h2 class="tr-concierge__h2">
+      Каждый заказ —<br><em>личный разговор</em>
+    </h2>
+
+    <p class="tr-concierge__body">
+      Свяжитесь с нашим консьержем для выбора модели,
+      гравировки и индивидуальной комплектации.
+    </p>
+
+    <button class="tr-concierge__btn js-open-modal" type="button">
+      <span>Запросить консьерж-сервис</span>
+      <span class="tr-btn-arrow" aria-hidden="true">→</span>
+    </button>
+
+    <p class="tr-concierge__note">
+      Ответим в течение 24 часов &ensp;·&ensp; Строго конфиденциально
+    </p>
+
+  </section>
+
+</div><!-- /.tr-wrapper -->
+
+
+<script src="shared.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+/* ============================================================
+   THÉANA RUSSU — Animations v4.0 "Dark Editorial"
+   GSAP 3 + ScrollTrigger + Vanilla JS
+   Fully scoped: operates on .tr-wrapper children
+============================================================ */
+(function () {
+  'use strict';
+
+  /* ── Safety checks ─────────────────────────────────────── */
+  if (typeof gsap === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const rm   = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const desk = window.innerWidth >= 1024;
+
+  /* ============================================================
+     §1  HERO — Canvas paint-trail reveal + entrance animation
+  ============================================================ */
+
+  /* ── Canvas Paint-Trail Reveal ──────────────────────────────
+     Full-screen dark background with centered bags.
+     Mouse paint creates a trail that reveals the light bag
+     under the green overlay.
+  ─────────────────────────────────────────────────────────── */
+  const revealCanvas = document.querySelector('.tr-wrapper .tr-hero__canvas');
+  if (revealCanvas) {
+    const ctx = revealCanvas.getContext('2d');
+
+    // Offscreen canvases
+    const trailCanvas = document.createElement('canvas');
+    const tc = trailCanvas.getContext('2d');
+    const frameCanvas = document.createElement('canvas');
+    const fc = frameCanvas.getContext('2d');
+
+    const lightImg = new Image(); lightImg.src = 'light.png';
+    const greenImg = new Image(); greenImg.src = 'green.png';
+
+    let CW, CH, bagX, bagY, bagW, bagH, RADIUS;
+    const FADE_RATE = 0.008;
+    const BG = '#F8F5EE';
+
+    function resize() {
+      CW = revealCanvas.offsetWidth  || window.innerWidth;
+      CH = revealCanvas.offsetHeight || window.innerHeight;
+      revealCanvas.width  = CW;
+      revealCanvas.height = CH;
+      trailCanvas.width  = CW; trailCanvas.height = CH;
+      frameCanvas.width  = CW; frameCanvas.height = CH;
+
+      bagH = CW >= 1024 ? CH * 0.88 : CH * 0.72;
+      bagW = bagH * (5 / 6);
+      bagX = (CW - bagW) / 2;
+      bagY = (CH - bagH) * 0.42;
+      RADIUS = bagW * 0.32;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let mX = 0, mY = 0, isOver = false;
+
+    function updatePos(clientX, clientY) {
+      const r = revealCanvas.getBoundingClientRect();
+      if (clientX >= r.left && clientX <= r.right &&
+          clientY >= r.top  && clientY <= r.bottom) {
+        mX = (clientX - r.left) * CW / r.width;
+        mY = (clientY - r.top)  * CH / r.height;
+        isOver = true;
+      } else {
+        isOver = false;
+      }
+    }
+
+    window.addEventListener('mousemove', e => updatePos(e.clientX, e.clientY));
+    window.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      updatePos(t.clientX, t.clientY);
+    });
+    window.addEventListener('touchend', () => { isOver = false; });
+
+    function loop() {
+      // Fade trail
+      tc.globalCompositeOperation = 'destination-out';
+      tc.fillStyle = 'rgba(0,0,0,' + FADE_RATE + ')';
+      tc.fillRect(0, 0, CW, CH);
+      tc.globalCompositeOperation = 'source-over';
+
+      // Paint brush
+      if (isOver) {
+        const g = tc.createRadialGradient(mX, mY, 0, mX, mY, RADIUS);
+        g.addColorStop(0,    'rgba(255,255,255,0.12)');
+        g.addColorStop(0.55, 'rgba(255,255,255,0.04)');
+        g.addColorStop(1,    'rgba(255,255,255,0)');
+        tc.fillStyle = g;
+        tc.beginPath();
+        tc.arc(mX, mY, RADIUS, 0, Math.PI * 2);
+        tc.fill();
+      }
+
+      // Composite
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, CW, CH);
+      ctx.drawImage(lightImg, bagX, bagY, bagW, bagH);
+
+      fc.fillStyle = BG;
+      fc.fillRect(0, 0, CW, CH);
+      fc.drawImage(greenImg, bagX, bagY, bagW, bagH);
+      fc.globalCompositeOperation = 'destination-out';
+      fc.drawImage(trailCanvas, 0, 0);
+      fc.globalCompositeOperation = 'source-over';
+
+      ctx.drawImage(frameCanvas, 0, 0);
+
+      requestAnimationFrame(loop);
+    }
+
+    let loaded = 0;
+    function onLoad() { if (++loaded === 2) loop(); }
+    lightImg.addEventListener('load',  onLoad);
+    greenImg.addEventListener('load',  onLoad);
+    lightImg.addEventListener('error', onLoad);
+    greenImg.addEventListener('error', onLoad);
+    if (lightImg.complete) onLoad();
+    if (greenImg.complete) onLoad();
+  }
+
+  /* ── Entrance animation ─────────────────────────────────── */
+  if (!rm) {
+    gsap.set('.tr-wrapper .tr-hero__canvas',      { opacity: 0 });
+    gsap.set('.tr-wrapper .tr-hero__brand-tag',   { opacity: 0, y: 14 });
+    gsap.set('.tr-wrapper .tr-hero__edition-tag', { opacity: 0, y: 14 });
+    gsap.set('.tr-wrapper .tr-hero__h1',          { opacity: 0, y: 60 });
+    gsap.set('.tr-wrapper .tr-hero__tagline',     { opacity: 0, y: 18 });
+    gsap.set('.tr-wrapper .tr-hero__cta',         { opacity: 0, y: 12 });
+
+    gsap.timeline({ defaults: { ease: 'power4.out' } })
+      .to('.tr-wrapper .tr-hero__canvas',      { opacity: 1, duration: 1.8 }, 0.1)
+      .to('.tr-wrapper .tr-hero__brand-tag',   { opacity: 1, y: 0, duration: 1.0 }, 0.5)
+      .to('.tr-wrapper .tr-hero__edition-tag', { opacity: 1, y: 0, duration: 1.0 }, 0.65)
+      .to('.tr-wrapper .tr-hero__h1',          { opacity: 1, y: 0, duration: 1.4, stagger: 0.16 }, 0.9)
+      .to('.tr-wrapper .tr-hero__tagline',     { opacity: 1, y: 0, duration: 1.1 }, 1.6)
+      .to('.tr-wrapper .tr-hero__cta',         { opacity: 1, y: 0, duration: 0.9 }, 1.9);
+  } else {
+    gsap.set(['.tr-wrapper .tr-hero__canvas', '.tr-wrapper .tr-hero__brand-tag',
+      '.tr-wrapper .tr-hero__edition-tag', '.tr-wrapper .tr-hero__h1',
+      '.tr-wrapper .tr-hero__tagline', '.tr-wrapper .tr-hero__cta'],
+      { opacity: 1, y: 0 });
+  }
+
+
+  /* ============================================================
+     §2  COLLECTION — scroll reveal
+  ============================================================ */
+
+  /* Header reveal via GSAP ScrollTrigger */
+  const collHeader = document.querySelector('.tr-wrapper .tr-collection__header');
+  if (collHeader && !rm) {
+    gsap.set(collHeader, { opacity: 0, y: 32 });
+    ScrollTrigger.create({
+      trigger: collHeader,
+      start: 'top 82%',
+      once: true,
+      onEnter() {
+        gsap.to(collHeader, {
+          opacity: 1, y: 0,
+          duration: 1.0,
+          ease: 'power3.out'
+        });
+      }
+    });
+  }
+
+  /* Cards via IntersectionObserver */
+  const cardObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('tr-visible');
+        cardObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.tr-wrapper .tr-card').forEach(c => cardObs.observe(c));
+
+
+  /* ============================================================
+     §3  MANIFESTO — word-by-word reveal
+  ============================================================ */
+  const quoteEl = document.querySelector('.tr-wrapper .tr-manifesto__quote');
+
+  if (quoteEl) {
+    /* Split text into word spans */
+    const raw = quoteEl.textContent.trim();
+    quoteEl.innerHTML = raw
+      .split(/\s+/)
+      .map(w => `<span class="tr-word">${w}</span>`)
+      .join(' ');
+
+    if (!rm) {
+      gsap.set('.tr-wrapper .tr-manifesto__quote .tr-word', { opacity: 0, y: 12 });
+
+      ScrollTrigger.create({
+        trigger: quoteEl,
+        start: 'top 76%',
+        once: true,
+        onEnter() {
+          gsap.to('.tr-wrapper .tr-manifesto__quote .tr-word', {
+            opacity: 1,
+            y: 0,
+            duration: 0.60,
+            stagger: 0.040,
+            ease: 'power2.out'
+          });
+        }
+      });
+    } else {
+      document.querySelectorAll('.tr-wrapper .tr-manifesto__quote .tr-word')
+        .forEach(w => { w.style.opacity = '1'; w.style.transform = 'none'; });
+    }
+  }
+
+  /* Other manifesto elements via IntersectionObserver */
+  const mObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('tr-visible');
+        mObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  [
+    '.tr-wrapper .tr-manifesto__rule',
+    '.tr-wrapper .tr-manifesto__eyebrow',
+    '.tr-wrapper .tr-manifesto__attribution',
+    '.tr-wrapper .tr-manifesto__body'
+  ].forEach(sel =>
+    document.querySelectorAll(sel).forEach(el => mObs.observe(el))
+  );
+
+
+  /* ============================================================
+     §4  CRAFT — staggered reveal
+  ============================================================ */
+  const craftObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('tr-visible');
+        craftObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.10 });
+
+  document.querySelectorAll('.tr-wrapper .tr-craft__item').forEach(el => craftObs.observe(el));
+
+
+  /* ============================================================
+     §5  CONCIERGE — reveal + magnetic button
+  ============================================================ */
+  const cObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('tr-visible');
+        cObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.20 });
+
+  [
+    '.tr-wrapper .tr-concierge__eyebrow',
+    '.tr-wrapper .tr-concierge__h2',
+    '.tr-wrapper .tr-concierge__body',
+    '.tr-wrapper .tr-concierge__btn',
+    '.tr-wrapper .tr-concierge__note'
+  ].forEach(sel =>
+    document.querySelectorAll(sel).forEach(el => cObs.observe(el))
+  );
+
+  /* Magnetic button */
+  const concBtn = document.querySelector('.tr-wrapper .tr-concierge__btn');
+  if (concBtn && desk && !rm) {
+    concBtn.addEventListener('mousemove', (e) => {
+      const rect = concBtn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width  / 2) * 0.28;
+      const y = (e.clientY - rect.top  - rect.height / 2) * 0.28;
+      gsap.to(concBtn, { x, y, duration: 0.45, ease: 'power2.out' });
+    });
+
+    concBtn.addEventListener('mouseleave', () => {
+      gsap.to(concBtn, {
+        x: 0, y: 0,
+        duration: 0.7,
+        ease: 'elastic.out(1, 0.45)'
+      });
+    });
+  }
+
+
+  /* ============================================================
+     §6  STACKED SCROLL — scale back sections as next enters
+  ============================================================ */
+  if (!rm) {
+    // Only sticky sections participate in the scale-back effect
+    const stackSections = Array.from(
+      document.querySelectorAll('.tr-wrapper .tr-section:not(.tr-section--flow)')
+    );
+
+    stackSections.forEach((section, i) => {
+      if (i >= stackSections.length - 1) return;
+      const next = stackSections[i + 1];
+
+      gsap.to(section, {
+        scale: 0.94,
+        borderRadius: '16px',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: next,
+          start: 'top 88%',
+          end: 'top top',
+          scrub: 0.8
+        }
+      });
+    });
+  }
+
+
+  /* ============================================================
+     Smooth scroll for hero CTA → collection
+  ============================================================ */
+  const heroCta = document.querySelector('.tr-wrapper .tr-hero__cta');
+  if (heroCta) {
+    heroCta.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector('#tr-collection');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+
+  /* ============================================================
+     Refresh ScrollTrigger after all assets load
+  ============================================================ */
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Доставка и оплата — Théana Russu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+
+<style>
+@font-face {
+  font-family: 'Brier';
+  src: url('cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'MonaSans';
+  src: url('cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2') format('woff2');
+  font-weight: 100 900; font-style: normal; font-display: swap;
+}
+
+.tr-wrapper {
+  --bg:        #F8F5EE;
+  --bg-2:      #F0EBE1;
+  --bg-dark:   #0A1408;
+  --fg:        #0D1810;
+  --fg-muted:  rgba(13, 24, 16, 0.48);
+  --green:     #006039;
+  --green-hi:  #007A47;
+  --gold:      #C9A96E;
+  --line:      rgba(0, 96, 57, 0.12);
+  --display:   'Brier', sans-serif;
+  --sans:      'MonaSans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --pad-x:     clamp(28px, 5.5vw, 80px);
+  --pad-y:     clamp(80px, 10vw, 140px);
+  --gap:       14px;
+
+  font-family: var(--sans);
+  color: var(--fg);
+  background: var(--bg);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+.tr-wrapper *, .tr-wrapper *::before, .tr-wrapper *::after { box-sizing: border-box; }
+.tr-wrapper h1,.tr-wrapper h2,.tr-wrapper h3,.tr-wrapper p { margin: 0; padding: 0; font-size: inherit; font-weight: inherit; }
+.tr-wrapper a { text-decoration: none; color: inherit; }
+
+
+/* ── Page hero ───────────────────────────────────────────── */
+.tr-wrapper .tr-del-hero {
+  padding: calc(64px + clamp(60px, 8vw, 100px)) var(--pad-x) clamp(60px, 8vw, 100px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 40px;
+}
+
+.tr-wrapper .tr-del-hero__eyebrow {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.tr-wrapper .tr-del-hero__eyebrow.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-hero__title {
+  font-family: 'Brier', sans-serif;
+  font-weight: 700;
+  font-size: clamp(52px, 7vw, 96px);
+  line-height: 0.90;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.0s ease 0.1s, transform 1.0s ease 0.1s;
+}
+.tr-wrapper .tr-del-hero__title.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-hero__desc {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 22px);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  max-width: 380px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
+}
+.tr-wrapper .tr-del-hero__desc.tr-visible { opacity: 1; transform: translateY(0); }
+
+
+/* ── Delivery section ────────────────────────────────────── */
+.tr-wrapper .tr-del-section {
+  padding: var(--pad-y) var(--pad-x);
+  border-bottom: 1px solid var(--line);
+}
+
+.tr-wrapper .tr-del-section__label {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: clamp(36px, 5vw, 56px);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.tr-wrapper .tr-del-section__label.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+
+.tr-wrapper .tr-del-card {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  padding: clamp(32px, 4vw, 52px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tr-wrapper .tr-del-card.tr-visible { opacity: 1; transform: translateY(0); }
+.tr-wrapper .tr-del-card:nth-child(1) { transition-delay: 0.00s; }
+.tr-wrapper .tr-del-card:nth-child(2) { transition-delay: 0.10s; }
+
+.tr-wrapper .tr-del-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tr-wrapper .tr-del-card__tag {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--green);
+  border: 1px solid rgba(0, 96, 57, 0.22);
+  padding: 6px 12px;
+  flex-shrink: 0;
+}
+
+.tr-wrapper .tr-del-card__price-badge {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(18px, 2vw, 24px);
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.tr-wrapper .tr-del-card__city {
+  font-family: 'Brier', sans-serif;
+  font-weight: 700;
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.tr-wrapper .tr-del-card__divider {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.tr-wrapper .tr-del-card__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.tr-wrapper .tr-del-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tr-wrapper .tr-del-card__row:first-child { border-top: 1px solid var(--line); }
+
+.tr-wrapper .tr-del-card__row-label {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  flex-shrink: 0;
+}
+
+.tr-wrapper .tr-del-card__row-val {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--fg);
+  text-align: right;
+  line-height: 1.35;
+}
+
+.tr-wrapper .tr-del-card__note {
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--fg-muted);
+}
+
+
+/* ── Payment section ─────────────────────────────────────── */
+.tr-wrapper .tr-pay-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+
+.tr-wrapper .tr-pay-card {
+  padding: clamp(28px, 3.5vw, 44px);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tr-wrapper .tr-pay-card.tr-visible { opacity: 1; transform: translateY(0); }
+.tr-wrapper .tr-pay-card:nth-child(1) { transition-delay: 0.00s; }
+.tr-wrapper .tr-pay-card:nth-child(2) { transition-delay: 0.09s; }
+.tr-wrapper .tr-pay-card:nth-child(3) { transition-delay: 0.18s; }
+
+.tr-wrapper .tr-pay-card__icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.tr-wrapper .tr-pay-card__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.2;
+  color: var(--fg);
+}
+
+.tr-wrapper .tr-pay-card__body {
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--fg-muted);
+  flex: 1;
+}
+
+.tr-wrapper .tr-pay-card__methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tr-wrapper .tr-pay-method {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+}
+
+
+/* ── Packaging section ───────────────────────────────────── */
+.tr-wrapper .tr-del-pack {
+  background: var(--bg-dark);
+  padding: var(--pad-y) var(--pad-x);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 100px);
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tr-wrapper .tr-del-pack::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(42, 96, 64, 0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.tr-wrapper .tr-del-pack__text {
+  position: relative; z-index: 1;
+}
+
+.tr-wrapper .tr-del-pack__eyebrow {
+  display: block;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.tr-wrapper .tr-del-pack__eyebrow.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-pack__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.12;
+  color: #EDE8D8;
+  letter-spacing: -0.01em;
+  margin-bottom: 36px;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 1.0s ease 0.12s, transform 1.0s ease 0.12s;
+}
+.tr-wrapper .tr-del-pack__title.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-pack__list {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease 0.25s;
+}
+.tr-wrapper .tr-del-pack__list.tr-visible { opacity: 1; }
+
+.tr-wrapper .tr-del-pack__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(237, 232, 216, 0.08);
+  font-family: var(--sans);
+  font-size: 13px;
+  color: rgba(237, 232, 216, 0.62);
+  line-height: 1.5;
+}
+.tr-wrapper .tr-del-pack__item::before {
+  content: '';
+  display: block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.tr-wrapper .tr-del-pack__item:first-child { border-top: 1px solid rgba(237, 232, 216, 0.08); }
+
+.tr-wrapper .tr-del-pack__visual {
+  position: relative; z-index: 1;
+}
+
+.tr-wrapper .tr-del-pack__photo {
+  aspect-ratio: 4 / 5;
+  background: rgba(237, 232, 216, 0.06);
+  border: 1px solid rgba(237, 232, 216, 0.10);
+  position: relative;
+  overflow: hidden;
+  /* Replace with: background-image: url('images/packaging.jpg'); background-size: cover; */
+}
+
+.tr-wrapper .tr-del-pack__photo::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border: 1px solid rgba(237, 232, 216, 0.15);
+  border-radius: 50%;
+}
+
+
+/* ── CTA ─────────────────────────────────────────────────── */
+.tr-wrapper .tr-del-cta {
+  padding: var(--pad-y) var(--pad-x);
+  text-align: center;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.tr-wrapper .tr-del-cta__eyebrow {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--green-hi);
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.tr-wrapper .tr-del-cta__eyebrow.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-cta__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: 1.15;
+  color: var(--fg);
+  letter-spacing: -0.01em;
+  max-width: 560px;
+  margin-bottom: 44px;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 1.0s ease 0.1s, transform 1.0s ease 0.1s;
+}
+.tr-wrapper .tr-del-cta__title.tr-visible { opacity: 1; transform: translateY(0); }
+
+.tr-wrapper .tr-del-cta__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background: var(--fg);
+  border: 1px solid var(--fg);
+  padding: 20px 44px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: gap 0.4s ease;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s, gap 0.4s ease;
+}
+.tr-wrapper .tr-del-cta__btn.tr-visible { opacity: 1; transform: translateY(0); }
+.tr-wrapper .tr-del-cta__btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  z-index: 0;
+}
+.tr-wrapper .tr-del-cta__btn:hover::before { transform: scaleX(1); }
+.tr-wrapper .tr-del-cta__btn:hover { gap: 22px; }
+.tr-wrapper .tr-del-cta__btn span { position: relative; z-index: 1; }
+
+.tr-wrapper .tr-del-cta__note {
+  margin-top: 20px;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(13, 24, 16, 0.28);
+  opacity: 0;
+  transition: opacity 0.8s ease 0.4s;
+}
+.tr-wrapper .tr-del-cta__note.tr-visible { opacity: 1; }
+
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1199px) {
+  .tr-wrapper .tr-pay-grid { grid-template-columns: 1fr 1fr; }
+  .tr-wrapper .tr-pay-card:nth-child(3) { grid-column: 1 / -1; }
+}
+
+@media (max-width: 767px) {
+  .tr-wrapper .tr-del-hero { grid-template-columns: 1fr; gap: 20px; }
+  .tr-wrapper .tr-del-cards { grid-template-columns: 1fr; }
+  .tr-wrapper .tr-pay-grid { grid-template-columns: 1fr; }
+  .tr-wrapper .tr-pay-card:nth-child(3) { grid-column: auto; }
+  .tr-wrapper .tr-del-pack { grid-template-columns: 1fr; }
+  .tr-wrapper .tr-del-pack__visual { display: none; }
+  .tr-wrapper .tr-del-section,
+  .tr-wrapper .tr-del-pack,
+  .tr-wrapper .tr-del-cta { padding: 64px 24px; }
+  .tr-wrapper .tr-del-hero { padding-left: 24px; padding-right: 24px; }
+}
+</style>
+</head>
+
+<body>
+<div class="tr-wrapper">
+
+  <!-- ── Global header ──────────────────────────────────────── -->
+  <header class="tr-header is-scrolled" id="tr-header" data-solid="true" aria-label="Навигация сайта">
+    <a href="index.html" class="tr-header__logo">Théana Russu</a>
+    <nav class="tr-header__nav">
+      <a href="index.html#tr-collection" class="tr-header__nav-link">Коллекция</a>
+      <a href="delivery.html" class="tr-header__nav-link is-active">Доставка</a>
+      <a href="index.html#tr-manifesto" class="tr-header__nav-link">О бренде</a>
+    </nav>
+    <button class="tr-header__cta js-open-modal" type="button">
+      <span>Консьерж</span><span aria-hidden="true">→</span>
+    </button>
+    <button class="tr-header__burger" type="button" aria-label="Открыть меню" aria-expanded="false">
+      <span class="tr-header__burger-line"></span>
+      <span class="tr-header__burger-line"></span>
+      <span class="tr-header__burger-line"></span>
+    </button>
+  </header>
+
+  <!-- ── Mobile menu ────────────────────────────────────────── -->
+  <div class="tr-menu" id="tr-menu" aria-hidden="true">
+    <nav class="tr-menu__nav">
+      <a href="index.html#tr-collection" class="tr-menu__link">Коллекция</a>
+      <a href="delivery.html"            class="tr-menu__link">Доставка</a>
+      <a href="index.html#tr-manifesto"  class="tr-menu__link">О бренде</a>
+    </nav>
+    <div class="tr-menu__bottom">
+      <button class="tr-menu__cta js-open-modal" type="button">
+        <span>Консьерж-сервис</span><span aria-hidden="true">→</span>
+      </button>
+      <span class="tr-menu__edition">Edition I · 2025</span>
+    </div>
+  </div>
+
+  <!-- ── Concierge modal ────────────────────────────────────── -->
+  <div class="tr-modal" id="tr-modal" role="dialog" aria-modal="true" aria-labelledby="tr-modal-title" aria-hidden="true">
+    <div class="tr-modal__backdrop"></div>
+    <div class="tr-modal__box">
+      <button class="tr-modal__close" aria-label="Закрыть">✕</button>
+      <span class="tr-modal__eyebrow">Консьерж-сервис</span>
+      <h2 class="tr-modal__title" id="tr-modal-title">Расскажите нам<br>о своём выборе</h2>
+      <form class="tr-form" novalidate>
+        <div class="tr-form__row">
+          <div class="tr-form__field">
+            <label class="tr-form__label" for="f-name">Имя<span>*</span></label>
+            <input class="tr-form__input" id="f-name" name="name" type="text" placeholder="Ваше имя" required>
+          </div>
+          <div class="tr-form__field">
+            <label class="tr-form__label" for="f-phone">Телефон<span>*</span></label>
+            <input class="tr-form__input" id="f-phone" name="phone" type="tel" placeholder="+7 000 000 00 00" required>
+          </div>
+        </div>
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-email">Email</label>
+          <input class="tr-form__input" id="f-email" name="email" type="email" placeholder="you@example.com">
+        </div>
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-model">Модель<span>*</span></label>
+          <select class="tr-form__select" id="f-model" name="model" required>
+            <option value="">— выберите модель —</option>
+            <option value="Venezia">Venezia</option>
+            <option value="Milano">Milano</option>
+            <option value="Firenze">Firenze</option>
+            <option value="Roma Clutch">Roma Clutch</option>
+            <option value="Не определилась">Ещё не определилась</option>
+          </select>
+        </div>
+        <div class="tr-form__field">
+          <label class="tr-form__label" for="f-comment">Комментарий</label>
+          <textarea class="tr-form__textarea" id="f-comment" name="comment" placeholder="Вопросы по доставке или оплате…"></textarea>
+        </div>
+        <label class="tr-form__check">
+          <input type="checkbox" name="agree" required>
+          <span class="tr-form__check-text">Согласна с <a href="#">обработкой персональных данных</a> и условиями заказа</span>
+        </label>
+        <button class="tr-form__submit" type="submit">
+          <span>Отправить заявку</span><span aria-hidden="true">→</span>
+        </button>
+      </form>
+      <div class="tr-modal__success">
+        <div class="tr-modal__success-icon">✓</div>
+        <p class="tr-modal__success-title">Заявка отправлена</p>
+        <p class="tr-modal__success-body">Мы свяжемся с вами в течение 24 часов.<br>Спасибо за интерес к Théana Russu.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       HERO
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-del-hero">
+    <div>
+      <span class="tr-del-hero__eyebrow">Условия</span>
+      <h1 class="tr-del-hero__title">Доставка<br>&amp; оплата</h1>
+    </div>
+    <p class="tr-del-hero__desc">
+      Каждая сумка собирается и отправляется
+      индивидуально — только после подтверждения
+      заказа через консьерж-сервис.
+    </p>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ДОСТАВКА
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-del-section">
+    <span class="tr-del-section__label">Доставка</span>
+
+    <div class="tr-del-cards">
+
+      <!-- СПб и Москва -->
+      <div class="tr-del-card">
+        <div class="tr-del-card__top">
+          <span class="tr-del-card__tag">Бесплатно</span>
+          <span class="tr-del-card__price-badge">0 ₽</span>
+        </div>
+        <div class="tr-del-card__city">Санкт-Петербург<br>&amp; Москва</div>
+        <div class="tr-del-card__divider"></div>
+        <div class="tr-del-card__rows">
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Способ</span>
+            <span class="tr-del-card__row-val">Курьер до двери</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Срок</span>
+            <span class="tr-del-card__row-val">1–2 рабочих дня</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Стоимость</span>
+            <span class="tr-del-card__row-val">Бесплатно</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Время</span>
+            <span class="tr-del-card__row-val">По договорённости<br>с консьержем</span>
+          </div>
+        </div>
+        <p class="tr-del-card__note">
+          Курьер свяжется с вами за 2 часа до доставки.
+          Оплата при получении или онлайн заранее — на ваш выбор.
+        </p>
+      </div>
+
+      <!-- Регионы -->
+      <div class="tr-del-card">
+        <div class="tr-del-card__top">
+          <span class="tr-del-card__tag">СДЭК Premium</span>
+          <span class="tr-del-card__price-badge">По тарифу</span>
+        </div>
+        <div class="tr-del-card__city">Регионы<br>России</div>
+        <div class="tr-del-card__divider"></div>
+        <div class="tr-del-card__rows">
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Перевозчик</span>
+            <span class="tr-del-card__row-val">СДЭК Premium</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Срок</span>
+            <span class="tr-del-card__row-val">3–7 рабочих дней</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Стоимость</span>
+            <span class="tr-del-card__row-val">По тарифам СДЭК<br>рассчитывается индивидуально</span>
+          </div>
+          <div class="tr-del-card__row">
+            <span class="tr-del-card__row-label">Упаковка</span>
+            <span class="tr-del-card__row-val">Двойная, с защитой</span>
+          </div>
+        </div>
+        <p class="tr-del-card__note">
+          Отправка только после предоплаты. Трек-номер и уведомления
+          приходят автоматически. Страхование груза включено.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ОПЛАТА
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-del-section">
+    <span class="tr-del-section__label">Оплата</span>
+
+    <div class="tr-pay-grid">
+
+      <div class="tr-pay-card">
+        <div class="tr-pay-card__icon">↗</div>
+        <h3 class="tr-pay-card__title">Онлайн<br>на сайте</h3>
+        <p class="tr-pay-card__body">
+          Оплата картой через защищённый платёжный шлюз.
+          Чек приходит на email сразу после оплаты.
+          Поддерживаем российские и международные карты.
+        </p>
+        <div class="tr-pay-card__methods">
+          <span class="tr-pay-method">Visa</span>
+          <span class="tr-pay-method">Mastercard</span>
+          <span class="tr-pay-method">МИР</span>
+          <span class="tr-pay-method">СБП</span>
+        </div>
+      </div>
+
+      <div class="tr-pay-card">
+        <div class="tr-pay-card__icon">◎</div>
+        <h3 class="tr-pay-card__title">Наличными<br>при получении</h3>
+        <p class="tr-pay-card__body">
+          Только для доставки курьером по Санкт-Петербургу
+          и Москве. Точную сумму уточняет консьерж
+          при подтверждении заказа.
+        </p>
+        <div class="tr-pay-card__methods">
+          <span class="tr-pay-method">СПб</span>
+          <span class="tr-pay-method">Москва</span>
+          <span class="tr-pay-method">Курьер</span>
+        </div>
+      </div>
+
+      <div class="tr-pay-card">
+        <div class="tr-pay-card__icon">⟳</div>
+        <h3 class="tr-pay-card__title">Возврат<br>и обмен</h3>
+        <p class="tr-pay-card__body">
+          14 дней с момента получения. Изделие должно
+          быть в оригинальной упаковке без следов
+          использования. Персонализированные изделия
+          с гравировкой возврату не подлежат.
+        </p>
+        <div class="tr-pay-card__methods">
+          <span class="tr-pay-method">14 дней</span>
+          <span class="tr-pay-method">Оригинал. упаковка</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ЧТО ВХОДИТ В КОМПЛЕКТ
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-del-pack">
+
+    <div class="tr-del-pack__text">
+      <span class="tr-del-pack__eyebrow">Комплектация</span>
+      <h2 class="tr-del-pack__title">
+        Каждая сумка отправляется<br>в авторской упаковке
+      </h2>
+      <ul class="tr-del-pack__list">
+        <li class="tr-del-pack__item">Авторская коробка Théana Russu</li>
+        <li class="tr-del-pack__item">Пыльник из хлопкового муслина</li>
+        <li class="tr-del-pack__item">Фирменная лента и тишью</li>
+        <li class="tr-del-pack__item">Сертификат подлинности с номером</li>
+        <li class="tr-del-pack__item">Гарантийный талон (12 месяцев)</li>
+        <li class="tr-del-pack__item">Открытка с историей модели</li>
+      </ul>
+    </div>
+
+    <div class="tr-del-pack__visual">
+      <div class="tr-del-pack__photo"
+           style="background-image: url('images/packaging.jpg'); background-size: cover; background-position: center;">
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       CTA
+  ══════════════════════════════════════════════════════════ -->
+  <section class="tr-del-cta">
+    <span class="tr-del-cta__eyebrow">Готовы сделать заказ?</span>
+    <h2 class="tr-del-cta__title">
+      Начните с консьерж-запроса —<br>
+      мы согласуем все детали лично
+    </h2>
+    <button class="tr-del-cta__btn js-open-modal" type="button">
+      <span>Запросить консьерж-сервис</span>
+      <span aria-hidden="true">→</span>
+    </button>
+    <p class="tr-del-cta__note">Ответим в течение 24 часов · Строго конфиденциально</p>
+  </section>
+
+</div><!-- /.tr-wrapper -->
+
+<script src="shared.js"></script>
+<script>
+(function () {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('tr-visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll([
+    '.tr-del-hero__eyebrow',
+    '.tr-del-hero__title',
+    '.tr-del-hero__desc',
+    '.tr-del-section__label',
+    '.tr-del-card',
+    '.tr-pay-card',
+    '.tr-del-pack__eyebrow',
+    '.tr-del-pack__title',
+    '.tr-del-pack__list',
+    '.tr-del-cta__eyebrow',
+    '.tr-del-cta__title',
+    '.tr-del-cta__btn',
+    '.tr-del-cta__note',
+  ].join(',')).forEach(el => obs.observe(el));
+})();
+</script>
+
+</body>
+</html>
